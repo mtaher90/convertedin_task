@@ -41,4 +41,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = [
+        'tasksCount',
+    ];
+
+    // getCurrencyAttribute
+    public function getTasksCountAttribute()
+    {
+        $count = $this->tasks->count();
+        return $count;
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Tasks::class, 'assigned_to_id', 'id');
+    }
 }
